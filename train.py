@@ -225,6 +225,14 @@ def train_and_evaluate(rank, epoch, hps, nets, optims, schedulers, scaler, loade
         utils.save_checkpoint(net_g, optim_g, hps.train.learning_rate, epoch, os.path.join(hps.model_dir, "G_{}.pth".format(global_step)))
         utils.save_checkpoint(net_d, optim_d, hps.train.learning_rate, epoch, os.path.join(hps.model_dir, "D_{}.pth".format(global_step)))
     global_step += 1
+    
+    old_d=os.path.join(hps.model_dir, "D_{}.pth".format(global_step-10000))
+    if os.path.exists(old_d):
+      os.remove(old_d)
+    old_g=os.path.join(hps.model_dir, "G_{}.pth".format(global_step-10000))
+    if os.path.exists(old_g):
+      os.remove(old_g)
+      
   
   if rank == 0:
     logger.info('====> Epoch: {}'.format(epoch))

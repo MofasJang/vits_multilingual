@@ -45,6 +45,8 @@ python setup.py build_ext --inplace
 python preprocess.py --out_extension cleaned1 --text_index 1 --filelists filelists/baker_all.txt --text_cleaners chinese_cleaners
 
 python preprocess.py --out_extension cleaned1 --text_index 1 --filelists filelists/ljs_audio_text_train_filelist.txt filelists/ljs_audio_text_val_filelist.txt --text_cleaners english_cleaners3
+
+python preprocess.py --out_extension cleaned --text_index 2 --filelists filelists/aishell3_train.txt filelists/aishell3_val.txt filelists/aishell3_test.txt --text_cleaners chinese_cleaners
 ```
 
 

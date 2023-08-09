@@ -32,7 +32,8 @@ from losses import (
 )
 from mel_processing import mel_spectrogram_torch, spec_to_mel_torch
 from text.symbols import symbols
-
+import warnings
+warnings.filterwarnings("ignore")
 
 torch.backends.cudnn.benchmark = True
 global_step = 0
@@ -228,6 +229,13 @@ def train_and_evaluate(rank, epoch, hps, nets, optims, schedulers, scaler, loade
         utils.save_checkpoint(net_d, optim_d, hps.train.learning_rate, epoch, os.path.join(hps.model_dir, "D_{}.pth".format(global_step)))
     global_step += 1
   
+    old_d=os.path.join(hps.model_dir, "D_{}.pth".format(global_step-hps.train.eval_interval))
+    if os.path.exists(old_d):
+      os.remove(old_d)
+    old_g=os.path.join(hps.model_dir, "G_{}.pth".format(global_step-hps.train.eval_interval))
+    if os.path.exists(old_g):
+      os.remove(old_g)
+      
   if rank == 0:
     logger.info('====> Epoch: {}'.format(epoch))
 
